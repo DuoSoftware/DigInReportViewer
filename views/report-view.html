@@ -1,0 +1,65 @@
+<div ng-controller="reportCtrl">
+
+    <div class="header-wrap" flex>
+        <div class="report-main-wrap">
+            <div layout="row" layout-align="center center">
+                <div layout="row" flex flex-gt-xs="60">
+                    <div class="header">
+                        <h1>Select your report</h1>
+                        <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                    </div>
+                    <div class="header-img-ng"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-search-wrap">
+            <div layout="row" layout-align="center center">
+                <div layout="row" flex flex-gt-xs="60">
+                    <div flex-gt-sm="70" flex="70">
+                        <md-input-container class="md-icon-float md-block">
+                            <!-- Use floating label instead of placeholder -->
+                            <label class="white-text">Search report here...</label>
+                            <md-icon md-svg-src="img/icons/ic_person_24px.svg" class="name"></md-icon>
+                            <input class="white-input" ng-model="user.name" type="text">
+                        </md-input-container>
+                    </div>
+                    <div flex-gt-sm="30" flex="30">
+                        <div class="header-btn-wrap">
+                            <md-button class="md-raised md-search-btn">Refresh</md-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-view-wrap">
+        <div layout="row" layout-align="center center">
+            <div layout="row" flex flex-gt-xs="80">
+                <div class='md-padding' layout="row" flex>
+                    <div layout="row" flex>
+                        <div class='md-padding' layout="row" layout-wrap flex layout-align="center center">
+                            <md-card flex="25" ng-repeat="report in reports">
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline">{{report.name}}</span>
+                                        <span class="md-subhead">Large</span>
+                                    </md-card-title-text>
+                                    <md-card-title-media>
+                                        <div class="md-media-lg card-media"></div>
+                                    </md-card-title-media>
+                                </md-card-title>
+                                <md-card-actions layout="row" layout-align="end center">
+                                    <md-button>View Report</md-button>
+                                </md-card-actions>
+                            </md-card>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

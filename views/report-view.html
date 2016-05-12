@@ -1,12 +1,14 @@
 <div ng-controller="reportCtrl">
 
-    <div class="header-wrap" flex>
+    <div class="header-wrap animated fadeIn" flex>
         <div class="report-main-wrap">
             <div layout="row" layout-align="center center">
                 <div layout="row" flex flex-gt-xs="60">
                     <div class="header">
-                        <h1>Select your report</h1>
-                        <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                        <h1 class="animated zoomIn">Select your report</h1>
+                        <small class="animated fadeIn">Lorem Ipsum is simply dummy text of the printing and typesetting
+                            industry.
+                        </small>
                     </div>
                     <div class="header-img-ng"></div>
                 </div>
@@ -26,7 +28,7 @@
                     </div>
                     <div flex-gt-sm="30" flex="30">
                         <div class="header-btn-wrap">
-                            <md-button class="md-raised md-search-btn">Refresh</md-button>
+                            <md-button ng-click="refresh()" class="md-raised md-search-btn">Refresh</md-button>
                         </div>
                     </div>
                 </div>
@@ -37,21 +39,32 @@
     <div class="report-view-wrap">
         <div layout="row" layout-align="center center">
             <div layout="row" flex flex-gt-xs="80">
-                <div class='md-padding' layout="row" flex>
+                <div class='md-padding position-relative' layout="row" flex>
+                    <div class="error-msg-wrap" ng-show="reports==null && isReportLoading==false ">
+                        <md-card class="error-msg font-robot" layout-align="center center">
+                            Report not found..
+                        </md-card>
+                    </div>
                     <div layout="row" flex>
+                        <div class="loader more"
+                             ng-show="isReportLoading"
+                        ></div>
                         <div class='md-padding' layout="row" layout-wrap flex layout-align="center center">
-                            <md-card flex="25" ng-repeat="report in reports">
+                            <md-card flex="25" class="report-wrap animated zoomIn " ng-repeat="report in reports">
                                 <md-card-title>
                                     <md-card-title-text>
-                                        <span class="md-headline">{{report.name}}</span>
-                                        <span class="md-subhead">Large</span>
+                                        <span class="md-headline font-robot report-header">
+                                            {{ report | limitTo: 22 }}{{report.length > 22 ? '...' : ''}}
+                                        </span>
                                     </md-card-title-text>
                                     <md-card-title-media>
-                                        <div class="md-media-lg card-media"></div>
+                                        <div class="image-report">
+                                            <img src="assets/img/report.png"/>
+                                        </div>
                                     </md-card-title-media>
                                 </md-card-title>
-                                <md-card-actions layout="row" layout-align="end center">
-                                    <md-button>View Report</md-button>
+                                <md-card-actions layout="row" layout-align="center center">
+                                    <md-button ng-click="clickGoToFilter(report)">create Report</md-button>
                                 </md-card-actions>
                             </md-card>
                         </div>

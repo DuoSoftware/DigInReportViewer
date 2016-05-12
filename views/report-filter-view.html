@@ -1,0 +1,108 @@
+<div ng-controller="reportFilterCtrl">
+    <toast></toast>
+    <div class="header-wrap animated fadeIn" flex>
+        <div class="report-main-wrap">
+            <div layout="row" layout-align="center center">
+                <div layout="row" flex flex-gt-xs="60">
+                    <div class="header">
+                        <h1 class="animated zoomIn">Create your report</h1>
+                        <small class="animated fadeIn">Lorem Ipsum is simply dummy text of the printing and typesetting
+                            industry.
+                        </small>
+                        <hr style="border-width: 0px;">
+                        <small>report name : {{reportName}}</small>
+                    </div>
+                    <div class="header-img-ng"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-search-wrap">
+            <div layout="row" layout-align="center center">
+                <div layout="row" flex flex-gt-xs="60">
+                    <div flex-gt-sm="60" flex="60">
+                        <md-input-container class="md-icon-float md-block">
+                            <!-- Use floating label instead of placeholder -->
+                            <label class="white-text">Search report here...</label>
+                            <md-icon md-svg-src="img/icons/ic_person_24px.svg" class="name"></md-icon>
+                            <input class="white-input" ng-model="user.name" type="text">
+                        </md-input-container>
+                    </div>
+                    <div flex-gt-sm="40" flex="40">
+                        <div class="header-btn-wrap">
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                <md-button ng-disabled="reportFldLoading" class="md-raised" ng-click="onCreateReport()">
+                                    create report
+                                </md-button>
+                                <md-button ng-disabled="reportFldLoading" class="md-raised md-primary">refresh
+                                </md-button>
+                            </section>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- #filed view -->
+    <div class="report-view-wrap">
+
+        <div layout="row">
+            <div flex="40">
+                <div layout="row">
+                    <div flex ng-repeat="picker in reportFiledList.UIDate">
+                        <md-card layout="column">
+                            <md-card-title>
+                                <div layout-gt-xs="row">
+                                    <md-datepicker ng-model="reportFiledList.selectedDate[picker.fieldname]"
+                                                   md-placeholder="{{picker.fieldname}}">
+                                    </md-datepicker>
+                                </div>
+                            </md-card-title>
+                        </md-card>
+                    </div>
+
+                </div>
+                <div class="drop-down">
+                    <md-card class="p-l-r-25 position-over" ng-repeat="dropDown in reportFiledList.UIDropDown"
+                             layout="column">
+                        <div class="filed-loading" layout-align="center center"
+                             ng-class="dropDown.loader==true?'display-block':'display-none'">
+                            <svg class="spinner-container" width="20px" height="20px" viewBox="0 0 52 52">
+                                <circle class="path" cx="26px" cy="26px" r="20px" fill="none" stroke-width="4px"/>
+                            </svg>
+                        </div>
+                        <md-input-container>
+                            <label>Select {{dropDown.fieldname}}</label>
+                            <md-select ng-model="selectedVal['value'.filed]"
+                                       ng-change="onChangeSelected(dropDown.fieldname)">
+                                <md-option ng-repeat="filed in  dropDown.data track by filed">
+                                    {{filed}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+
+                    </md-card>
+                </div>
+
+
+            </div>
+            <div flex flex="60">
+                <div class="report" id="report">
+                    <div class="report-loading" layout-align="center center"
+                         ng-if="reportFldLoading">
+                        <div class="loader more"></div>
+                    </div>
+                    <iframe frameborder='0' ng-src="{{reportURL}}"
+                            frameborder="0"
+                            id="reportFram"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

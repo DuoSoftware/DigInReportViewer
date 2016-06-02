@@ -57,11 +57,11 @@
                                             {{ report | limitTo: 22 }}{{report.length > 22 ? '...' : ''}}
                                         </span>
                                     </md-card-title-text>
-                                    <md-card-title-media>
-                                        <div class="image-report">
-                                            <img src="assets/img/report.png"/>
-                                        </div>
-                                    </md-card-title-media>
+
+                                    <div class="image-report">
+                                        <img src="assets/img/report.png"/>
+                                    </div>
+
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="center center">
                                     <md-button ng-click="clickGoToFilter(report)">create Report</md-button>

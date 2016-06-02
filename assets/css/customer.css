@@ -82,6 +82,7 @@ html, body {
 .report-view-wrap {
     position: relative;
     margin-bottom: 100px;
+    margin-top: 70px;
 }
 
 .header-img-ng {
@@ -92,7 +93,7 @@ html, body {
     height: 232px;
     position: absolute;
     width: 30%;
-    top: 137px;
+    top: 110px;
     z-index: 100;
 }
 
@@ -102,7 +103,6 @@ html, body {
     width: 100%;
     padding-top: 10px;
     position: absolute;
-    top: 54%;
 }
 
 .header-btn-wrap {
@@ -189,7 +189,7 @@ h1 {
     height: 60px;
     border-radius: 50%;
     margin: 0 auto;
-    left: 85px;
+    left: 22%;
     /* right: 0; */
     top: 74px;
     overflow: hidden;

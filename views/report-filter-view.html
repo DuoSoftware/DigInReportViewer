@@ -76,8 +76,10 @@
                         <md-input-container>
                             <label>Select {{dropDown.fieldname}}</label>
                             <md-select ng-model="selectedVal['value'.filed]"
+                                       id="{{dropDown.fieldname}}"
                                        ng-change="onChangeSelected(dropDown.fieldname)">
-                                <md-option ng-repeat="filed in  dropDown.data track by filed">
+                                <md-option
+                                        ng-repeat="filed in  dropDown.data track by filed">
                                     {{filed}}
                                 </md-option>
                             </md-select>

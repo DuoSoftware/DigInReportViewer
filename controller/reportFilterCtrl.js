@@ -3,14 +3,17 @@
  */
 
 mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, config,
-                                                 ngToast, $stateParams,$sce) {
+                                                 ngToast, $stateParams, $sce) {
 
-
-    ngToast.create('a toast message...');
 
     $scope.isFiled = {
         loading: false,
         found: false
+    };
+
+    //back to home
+    $scope.onClickBack = function () {
+        $state.go('home.Dashboards');
     };
 
     //#event handler
@@ -36,12 +39,15 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     //report data
     var reportFiledList = {
         UIDate: [],
+        currentDateFiledName: [],
         loader: [],
         UITextBox: [],
         UIDropDown: [],
         UIElement: [],
         selectedDrpFiled: [],
         selectedDate: [],
+        isDateFound: false,
+        isDropDownFound: false,
         fromDate: '',
         toDate: '',
         cafDate: '',
@@ -137,9 +143,55 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 
             },
             clearIframe: function () {
+                $scope.eventHandler.isDataFound = true;
+                $scope.eventHandler.isReportLoad = false;
+                $scope.reportURL = $sce.trustAsResourceUrl('');
                 var frame = $('#reportFram').get(0);
                 var frameDoc = frame.contentDocument || frame.contentWindow.document;
                 frameDoc.getElementsByTagName('body')[0].innerHTML = "";
+            },
+            getNumberOfMonth: function (month) {
+                switch (month.toLowerCase()) {
+                    case "january":
+                        return '01';
+                        break;
+                    case "february":
+                        return '02';
+                        break;
+                    case "march":
+                        return '03';
+                        break;
+                    case "april":
+                        return '04';
+                        break;
+                    case "may":
+                        return '05';
+                        break;
+                    case "june":
+                        return '06';
+                        break;
+                    case "july":
+                        return '07';
+                        break;
+                    case "august":
+                        return '08';
+                        break;
+                    case "september":
+                        return '09';
+                        break;
+                    case "october":
+                        return '10';
+                        break;
+                    case "november":
+                        return '11';
+                        break;
+                    case "december":
+                        return '12';
+                        break;
+                    case "all":
+                        return '00';
+                        break;
+                }
             }
         }
     })();
@@ -155,17 +207,22 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     //drop down on change event select
     $scope.onChangeSelected = function (filedName) {
 
-        var selectedVal = $scope.selectedVal;
-        //console.log($scope.reportFiledList.selectedDate);
+        var e = document.getElementById(filedName);
+        var select_value = e.options[e.selectedIndex].text;
+
+        //this function work on filedname must need month or months
+        //get number of month
+        if (filedName == 'month' || filedName == "months" || filedName == "Months" || filedName == "Month") {
+            select_value = privateFun.getNumberOfMonth(select_value);
+        }
+
+
         var currentVal = {
             data: $scope.reportFiledList.selectedDrpFiled,
             length: $scope.reportFiledList.selectedDrpFiled.length,
             filedName: filedName,
-            value: ''
-        }
-        for (var c in selectedVal) {
-            currentVal.value = selectedVal[c];
-        }
+            value: select_value
+        };
 
         var currentFiledAry = $scope.reportFiledList.selectedDrpFiled;
         for (var i = 0; i < currentFiledAry.length; i++) {
@@ -174,9 +231,23 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             }
         }
 
-        //get current filed data
-        executeQryHandler.executeNextQuery(filedName, currentVal.value);
-    };
+        var executeQueryAry = $scope.executeQueryAry;
+        var findIndex = 0;
+        for (var loop = 0; loop < executeQueryAry.length; loop++) {
+            if (executeQueryAry[loop].ParamName == filedName) {
+                findIndex = loop;
+                findIndex++;
+            }
+        }
+
+        //check next query isHierarchy
+        //then true execute query
+        if (findIndex < executeQueryAry.length) {
+            if (executeQueryAry[findIndex].isHierarchy) {
+                executeQryHandler.executeNextQuery(filedName, currentVal.value, findIndex);
+            }
+        }
+    };//end
 
     //#refresh
     //refresh all data
@@ -284,30 +355,24 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                         if (Object.prototype.hasOwnProperty.call(data, d)) {
                             var val = data[d];
 
-                            //update line
-                            //check label value Is null
-                            var valLable = null;
-                            if (val.Label == null || val.Label == "") {
-                                valLable = val.Fieldname.toLowerCase();
-                            } else {
-                                valLable = val.Label.toLowerCase();
-                            }
-
                             //get filed data
                             var dynObject = {
                                 query: val.Query,
                                 label: val.Fieldname,
-                                fieldname: valLable,
-                                data: [],
-                                'loader': false
+                                fieldname: val.Fieldname,
+                                isHierarchy: val.isHierarchy,
+                                ParamName: val.ParamName,
+                                data: []
                             };
 
                             $scope.reportFiledList.selectedDrpFiled.push({
                                 'filedName': dynObject.fieldname,
                                 'value': '',
                                 'label': dynObject.label,
-
+                                'isHierarchy': dynObject.isHierarchy,
+                                'ParamName': dynObject.ParamName
                             });
+
                             angular.forEach(val, function (value, key) {
                                 var executeQueryAryObj = {
                                     id: '',
@@ -315,26 +380,26 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                     query: '',
                                     label: '',
                                     state: false,
+                                    isHierarchy: val.isHierarchy,
+                                    ParamName: val.ParamName
                                 };
 
                                 switch (value) {
                                     case 'datepicker':
                                         reportFiledList.UIDate.push(dynObject);
+                                        reportFiledList.currentDateFiledName.push(dynObject.fieldname);
+                                        reportFiledList.isDateFound = true;
                                         break;
                                     case 'dropdown':
                                         loop++;
                                         reportFiledList.UIDropDown.push(dynObject);
+                                        reportFiledList.isDropDownFound = true;
 
                                         length = reportFiledList.UIDropDown.length;
 
                                         executeQueryAryObj.id = loop;
                                         executeQueryAryObj.filedName = val.Label.toLowerCase();
                                         executeQueryAryObj.query = val.Query;
-                                        if (loop == 1) {
-                                            executeQueryAryObj.state = true;
-                                        } else {
-                                            executeQueryAryObj.state = false;
-                                        }
                                         $scope.executeQueryAry.push(executeQueryAryObj);
 
 
@@ -509,6 +574,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                 var replaceTxt = privateFun.capitalise(filedName);
                                 replaceTxt = '${' + replaceTxt + '}';
                                 var nextQuery = nextQuery.replace(replaceTxt, "'" + selectedVal + "'");
+                                nextQuery = nextQuery.replace('All', selectedVal);
 
                                 //loader
                                 var loaderIndex = 0;

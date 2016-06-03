@@ -1,7 +1,7 @@
 <div ng-controller="reportFilterCtrl">
     <toast></toast>
     <div class="header-wrap animated fadeIn" flex>
-        <div class="report-main-wrap">
+        <div class="report-main-wrap" style="display: none">
             <div layout="row" layout-align="center center">
                 <div layout="row" flex flex-gt-xs="60">
                     <div class="header">
@@ -75,7 +75,7 @@
                         </div>
                         <md-input-container>
                             <label>Select {{dropDown.fieldname}}</label>
-                            <md-select ng-model="selectedVal['value'.filed]"
+                            <md-select ng-model="selectedVal[dropDown.fieldname]"
                                        id="{{dropDown.fieldname}}"
                                        ng-change="onChangeSelected(dropDown.fieldname)">
                                 <md-option

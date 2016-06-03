@@ -403,49 +403,55 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                         $scope.executeQueryAry.push(executeQueryAryObj);
 
 
-                                        if (val.Query != "" && loop == 1) {
-                                            //privateFun.waitLoadingFiled(val.Label.toLowerCase());
-                                            var loaderIndex = 0;
-                                            for (var l = 0; l < reportFiledList.UIDropDown.length; l++) {
-                                                if (reportFiledList.UIDropDown[l].fieldname == val.Label.toLowerCase()) {
-                                                    loaderIndex = l;
-                                                    reportFiledList.UIDropDown[l].loader = true;
-                                                    l = reportFiledList.UIDropDown.length;
-                                                }
+                                        //privateFun.waitLoadingFiled(val.Label.toLowerCase());
+                                        var loaderIndex = 0;
+                                        for (var l = 0; l < reportFiledList.UIDropDown.length; l++) {
+                                            if (reportFiledList.UIDropDown[l].fieldname == val.Label.toLowerCase()) {
+                                                loaderIndex = l;
+                                                reportFiledList.UIDropDown[l].loader = true;
+                                                l = reportFiledList.UIDropDown.length;
                                             }
-                                            getExecuteQuery(val.Query, length, function (res) {
-                                                if (res.data == 500) {
-                                                    privateFun.fireMsg('0', '<strong>Error 500 :' +
-                                                        ' </strong>Report filed load error...');
-                                                    $scope.$apply(function () {
-                                                        $scope.reportFiledList.UIDropDown[loaderIndex].loader = false;
-                                                    });
-                                                    return;
-                                                }
-                                                var jsonObj = JSON.parse(res.data);
-                                                var filed = [];
-                                                for (var c in jsonObj.Result) {
-                                                    if (Object.prototype.hasOwnProperty.call(jsonObj.Result, c)) {
-                                                        val = jsonObj.Result[c];
-                                                        angular.forEach(val, function (value, key) {
-                                                            console.log(key + "," + value);
-                                                            for (var lop = 0; lop < reportFiledList.UIDropDown.length; lop++) {
-                                                                if (reportFiledList.UIDropDown[lop].fieldname ==
-                                                                    key) {
-                                                                    filed.push(value);
-                                                                }
-                                                            }
-
-                                                        });
-                                                    }
-                                                }
+                                        }
+                                        getExecuteQuery(val.Query, length, function (res) {
+                                            if (res.data == 500) {
+                                                privateFun.fireMsg('0', '<strong>Error 500 :' +
+                                                    ' </strong>Report filed load error...');
                                                 $scope.$apply(function () {
                                                     $scope.reportFiledList.UIDropDown[loaderIndex].loader = false;
-                                                    $scope.reportFiledList.UIDropDown[res.length].data = filed;
                                                 });
+                                                return;
+                                            }
+                                            var jsonObj = JSON.parse(res.data);
+                                            var filed = [];
+                                            privateFun.doneLoadedFiled();
+                                            for (var c in jsonObj.Result) {
+                                                if (Object.prototype.hasOwnProperty.call(jsonObj.Result, c)) {
+                                                    val = jsonObj.Result[c];
+                                                    angular.forEach(val, function (value, key) {
+                                                        if (key == "value") {
+                                                            if (value == "All") {
+                                                                value = "00";
+                                                            }
+                                                        }
+                                                        //  console.log(key + "," + value);
+                                                        if (value != "sort" && value != "1" && value != "2" && value != "3" && value != "4"
+                                                            && value != "5" && value != "6" && value != "7" && value != "8"
+                                                            && value != "9" && value != "10" && value != "11" && value != "12"
+                                                            && value != "01" && value != "02" && value != "03" && value != "05"
+                                                            && value != "04" && value != "13" && value != "00"
+                                                            && value != "06" && value != "07" && value != "08" && value != "09") {
+                                                            filed.push(value);
+                                                        }
 
+                                                    });
+                                                }
+                                            }
+                                            $scope.$apply(function () {
+                                                $scope.reportFiledList.UIDropDown[loaderIndex].loader = false;
+                                                $scope.reportFiledList.UIDropDown[res.length].data = filed;
                                             });
-                                        }
+
+                                        });
                                         break;
                                 }
                             });
@@ -466,12 +472,50 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                     UIDate: $scope.reportFiledList.UIDate
                 };
 
-                console.log($scope.reportFiledList.UIDate);
-                if (selDrpDwnObj.length == 0 || selDrpDwnObj == 'undefined') {
-                    privateFun.fireMsg('0', '<strong>Error :' +
-                        ' </strong>please select the report data...');
-                    return;
+                //#report validation
+                // date validation
+                if ($scope.reportFiledList.isDateFound) {
+                    var dateSelectEmpty = 0;
+                    if (Object.keys(datePickerObj).length == 0) {
+                        dateSelectEmpty = 2;
+                    } else if (Object.keys(datePickerObj).length == 1) {
+                        dateSelectEmpty = 2;
+                    } else {
+                        for (var c in  datePickerObj) {
+                            var temp = datePickerObj[c];
+                            if (temp == null || temp == "") {
+                                if (dateSelectEmpty != 2) {
+                                    dateSelectEmpty++;
+                                }
+                            }
+                        }
+                    }
+                    if (dateSelectEmpty == 2 || dateSelectEmpty == 1) {
+                        privateFun.fireMsg('0', '<strong>Error :' +
+                            ' </strong>please select the report date parameter...');
+                        privateFun.doneReportLoad();
+                        return;
+                    }
                 }
+
+                //drop down validation
+                var validationState = false;
+                var loop;
+                loop = $scope.reportFiledList.isDateFound ? 2 : 0;
+                if ($scope.reportFiledList.isDropDownFound) {
+                    for (loop; loop < selDrpDwnObj.length; loop++) {
+                        if (selDrpDwnObj[loop].value != "") {
+                            validationState = true;
+                        }
+                    }
+                    if (!validationState) {
+                        privateFun.fireMsg('0', '<strong>Error :' +
+                            ' </strong>please select the report  parameter...');
+                        privateFun.doneReportLoad();
+                        return;
+                    }
+                }
+
                 getReportName();
                 getSession();
                 reqParameter.rptParameter = '';
@@ -489,11 +533,11 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                 //create drop down report parameter
                 for (var i = 0; i < selDrpDwnObj.length; i++) {
                     if (i == 0) {
-                        reqParameter.rptParameter = '{"' + selDrpDwnObj[i]['label'] + '" : ' +
+                        reqParameter.rptParameter = '{"' + selDrpDwnObj[i]['ParamName'] + '" : ' +
                             '"' + selDrpDwnObj[i]['value'] + '"}';
                     }
                     else {
-                        reqParameter.rptParameter = reqParameter.rptParameter + ',{"' + selDrpDwnObj[i]['label'] + '" : ' +
+                        reqParameter.rptParameter = reqParameter.rptParameter + ',{"' + selDrpDwnObj[i]['ParamName'] + '" : ' +
                             '"' + selDrpDwnObj[i]['value'] + '"}';
                     }
                 }//end
@@ -556,7 +600,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     $scope.executeQueryAry = [];
     var executeQryHandler = (function () {
         return {
-            executeNextQuery: function (filedName, selectedVal) {
+            executeNextQuery: function (filedName, selectedVal,findIndex) {
                 //console.log(filedName);
                 //console.log(selectedVal);
                 var executeQueryAry = $scope.executeQueryAry;
@@ -579,7 +623,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                 //loader
                                 var loaderIndex = 0;
                                 for (var l = 0; l < reportFiledList.UIDropDown.length; l++) {
-                                    if (reportFiledList.UIDropDown[l].fieldname == executeQueryAry[nextRequst].filedName) {
+                                    if (reportFiledList.UIDropDown[l].ParamName == executeQueryAry[nextRequst].filedName) {
                                         loaderIndex = l;
                                         reportFiledList.UIDropDown[l].loader = true;
                                         l = reportFiledList.UIDropDown.length;
@@ -601,20 +645,27 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                             if (Object.prototype.hasOwnProperty.call(jsonObj.Result, c)) {
                                                 val = jsonObj.Result[c];
                                                 angular.forEach(val, function (value, key) {
-                                                    console.log(key + "," + value);
-                                                    for (var lop = 0; lop < reportFiledList.UIDropDown.length; lop++) {
-                                                        if (reportFiledList.UIDropDown[lop].fieldname ==
-                                                            key) {
-                                                            filed.push(value);
-                                                            foundArray = lop;
+                                                    //console.log(key + "," + value);
+                                                    if (key == "value") {
+                                                        if (value == "All") {
+                                                            value = "00";
                                                         }
+                                                    }
+                                                    //  console.log(key + "," + value);
+                                                    if (value != "sort" && value != "1" && value != "2" && value != "3" && value != "4"
+                                                        && value != "5" && value != "6" && value != "7" && value != "8"
+                                                        && value != "9" && value != "10" && value != "11" && value != "12"
+                                                        && value != "01" && value != "02" && value != "03" && value != "05"
+                                                        && value != "04" && value != "13" && value != "00"
+                                                        && value != "06" && value != "07" && value != "08" && value != "09") {
+                                                        filed.push(value);
                                                     }
                                                 });
                                             }
                                         }
                                         $scope.$apply(function () {
                                             $scope.reportFiledList.UIDropDown[loaderIndex].loader = false;
-                                            $scope.reportFiledList.UIDropDown[foundArray].data = filed;
+                                            $scope.reportFiledList.UIDropDown[findIndex].data = filed;
                                         });
 
                                     } else {

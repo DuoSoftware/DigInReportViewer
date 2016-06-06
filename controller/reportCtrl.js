@@ -4,7 +4,7 @@
 
 'use strict'
 mainApp.controller('reportCtrl', function ($rootScope, $scope,
-                                           $state, config, dynamicallyReportSrv) {
+                                           $state, config, dynamicallyReportSrv, $window) {
 
     //server request handler
     $scope.isReportLoading = false;
@@ -65,6 +65,12 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
     $scope.refresh = function () {
         getAllReport();
     }
+
+    //go to page up
+    $scope.goToTop = function () {
+        $window.scrollTo(0, angular.element(document.getElementById('top')).offsetTop);
+        // $window.scrollTo(0, 0);
+    };
 
 
 });

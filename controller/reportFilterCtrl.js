@@ -3,7 +3,7 @@
  */
 
 mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, config,
-                                                 ngToast, $stateParams, $sce) {
+                                                 ngToast, $stateParams, $sce, $state) {
 
 
     $scope.isFiled = {
@@ -13,7 +13,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 
     //back to home
     $scope.onClickBack = function () {
-        $state.go('home.Dashboards');
+        $state.go('report');
     };
 
     //#event handler
@@ -205,15 +205,18 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 
     //#dropDown change selected
     //drop down on change event select
-    $scope.onChangeSelected = function (filedName) {
-
-        var e = document.getElementById(filedName);
-        var select_value = e.options[e.selectedIndex].text;
+    $scope.onChangeSelected = function (val, filedName) {
+        //  var select_value = e.options[e.selectedIndex].text;
+        // var select_value = filedName;
 
         //this function work on filedname must need month or months
         //get number of month
+        var select_value = null;
         if (filedName == 'month' || filedName == "months" || filedName == "Months" || filedName == "Month") {
-            select_value = privateFun.getNumberOfMonth(select_value);
+            select_value = privateFun.getNumberOfMonth(val);
+        }
+        else {
+            select_value = val;
         }
 
 
@@ -249,20 +252,20 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
         }
     };//end
 
-    //#refresh
-    //refresh all data
+//#refresh
+//refresh all data
     $scope.onClickRefresh = function () {
         serverRequest.getReportUIFromServer(eventHandler);
     };
 
-    //#onclick cancel filed load
+//#onclick cancel filed load
     $scope.onClickStLoading = function () {
         privateFun.doneLoadedFiled();
     };
 
 
-    //#server request
-    //Main function
+//#server request
+//Main function
     var serverRequest = (function () {
         var reqParameter = {
             apiBase: config.apiReportBase,
@@ -406,7 +409,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                         //privateFun.waitLoadingFiled(val.Label.toLowerCase());
                                         var loaderIndex = 0;
                                         for (var l = 0; l < reportFiledList.UIDropDown.length; l++) {
-                                            if (reportFiledList.UIDropDown[l].fieldname == val.Label.toLowerCase()) {
+                                            if (reportFiledList.UIDropDown[l].ParamName == val.ParamName) {
                                                 loaderIndex = l;
                                                 reportFiledList.UIDropDown[l].loader = true;
                                                 l = reportFiledList.UIDropDown.length;
@@ -570,7 +573,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     };
 
 
-    //test code
+//test code
     $scope.noResultsTag = null;
     $scope.addTag = function () {
         $scope.tags.push({
@@ -589,18 +592,15 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     }, true);
 
 
-    //select report parameter
-    $scope.selectedVal = {};
+//select report parameter
+    $scope.selectedVal = null;
 
-    $scope.onText = function () {
-        console.log($scope.selectedVal);
-    }
 
-    //#execute query handler
+//#execute query handler
     $scope.executeQueryAry = [];
     var executeQryHandler = (function () {
         return {
-            executeNextQuery: function (filedName, selectedVal,findIndex) {
+            executeNextQuery: function (filedName, selectedVal, findIndex) {
                 //console.log(filedName);
                 //console.log(selectedVal);
                 var executeQueryAry = $scope.executeQueryAry;
@@ -684,4 +684,24 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
         };
     })();
 
+}).
+directive('datepicker', function () {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: function (scope, elem, attrs, ngModelCtrl) {
+            var updateModel = function (dateText) {
+                scope.$apply(function () {
+                    ngModelCtrl.$setViewValue(dateText);
+                });
+            };
+            var options = {
+                dateFormat: "dd/mm/yy",
+                onSelect: function (dateText) {
+                    updateModel(dateText);
+                }
+            };
+            elem.datepicker(options);
+        }
+    }
 });

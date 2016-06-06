@@ -1,10 +1,13 @@
 <div ng-controller="reportFilterCtrl">
     <toast></toast>
     <div class="header-wrap animated fadeIn" flex>
-        <div class="report-main-wrap" style="display: none">
+        <div class="report-main-wrap">
             <div layout="row" layout-align="center center">
                 <div layout="row" flex flex-gt-xs="60">
                     <div class="header">
+                        <md-button ng-click="onClickBack();" class="md-fab back-btn">
+                            <i class="fa fa-arrow-left"></i>
+                        </md-button>
                         <h1 class="animated zoomIn">Create your report</h1>
                         <small class="animated fadeIn">Lorem Ipsum is simply dummy text of the printing and typesetting
                             industry.
@@ -13,6 +16,8 @@
                         <small>report name : {{reportName}}</small>
                     </div>
                     <div class="header-img-ng"></div>
+
+
                 </div>
             </div>
         </div>
@@ -32,7 +37,7 @@
                         <div class="header-btn-wrap">
                             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                                 <md-button ng-disabled="reportFldLoading" class="md-raised" ng-click="onCreateReport()">
-                                    create report
+                                    Genarate report
                                 </md-button>
                                 <md-button ng-disabled="reportFldLoading" class="md-raised md-primary">refresh
                                 </md-button>
@@ -55,9 +60,9 @@
                         <md-card layout="column">
                             <md-card-title>
                                 <div layout-gt-xs="row">
-                                    <md-datepicker ng-model="reportFiledList.selectedDate[picker.fieldname]"
-                                                   md-placeholder="{{picker.fieldname}}">
-                                    </md-datepicker>
+                                    <input type="text" datepicker
+                                           ng-model="reportFiledList.selectedDate[picker.fieldname]"
+                                           placeholder="{{picker.label}}"/>
                                 </div>
                             </md-card-title>
                         </md-card>
@@ -75,11 +80,11 @@
                         </div>
                         <md-input-container>
                             <label>Select {{dropDown.fieldname}}</label>
-                            <md-select ng-model="selectedVal[dropDown.fieldname]"
+                            <md-select ng-model="selectedVal"
                                        id="{{dropDown.fieldname}}"
-                                       ng-change="onChangeSelected(dropDown.fieldname)">
-                                <md-option
-                                        ng-repeat="filed in  dropDown.data track by filed">
+                                       ng-change="onChangeSelected(selectedVal,dropDown.fieldname)">
+                                <md-option value="{{filed}}"
+                                           ng-repeat="filed in  dropDown.data track by filed">
                                     {{filed}}
                                 </md-option>
                             </md-select>

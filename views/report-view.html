@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="report-view-wrap">
+    <div class="report-view-wrap report-viewer-wrap" style="margin-top: 370px;">
         <div layout="row" layout-align="center center">
             <div layout="row" flex flex-gt-xs="80">
                 <div class='md-padding position-relative' layout="row" flex>
@@ -49,7 +49,8 @@
                         <div class="loader more"
                              ng-show="isReportLoading"
                         ></div>
-                        <div class='md-padding' layout="row" layout-wrap flex layout-align="center center">
+                        <div class='md-padding' layout="row" layout-wrap flex
+                             layout-align="center center">
                             <md-card flex="20" class="report-wrap animated zoomIn " ng-repeat="report in reports">
                                 <md-card-title>
                                     <md-card-title-text>

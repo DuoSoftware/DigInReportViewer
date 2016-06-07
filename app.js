@@ -25,8 +25,8 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
 mainApp.constant('config', {
     appName: 'diginReportViwer',
     appVersion: 1.0,
-    apiReportBase: 'http://192.168.2.33:8080/',
-    apiPostgreSql: 'http://192.168.2.33:8080/',
-    apiTomcatBase: 'http://192.168.2.33:9898/',
+    apiReportBase: 'http://192.168.2.191:8080/',
+    apiPostgreSql: 'http://192.168.2.191:8080/',
+    apiTomcatBase: 'http://192.168.2.191:9897/',
     storeIndex: 'com.duosoftware.com'
 });

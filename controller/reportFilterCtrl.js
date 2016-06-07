@@ -18,6 +18,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 
     //#event handler
     //report event handler
+    $scope.reportName = null;
     var eventHandler = {
         reportName: '',
         isReportLoad: false,
@@ -287,6 +288,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             } else {
                 reqParameter.reportName = reportName;
                 $scope.eventHandler.reportName = reportName;
+
             }
         };
         //get queries
@@ -696,7 +698,7 @@ directive('datepicker', function () {
                 });
             };
             var options = {
-                dateFormat: "dd/mm/yy",
+                dateFormat: "dd-mm-yy",
                 onSelect: function (dateText) {
                     updateModel(dateText);
                 }

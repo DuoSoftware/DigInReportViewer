@@ -1,6 +1,7 @@
 html, body {
     background: #cee2f2;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .background.with-promo {
@@ -82,7 +83,7 @@ html, body {
 .report-view-wrap {
     position: relative;
     margin-bottom: 100px;
-    margin-top: 370px;
+    margin-top: 42px;
 }
 
 .header-img-ng {
@@ -103,6 +104,10 @@ html, body {
     width: 100%;
     padding-top: 10px;
     position: absolute;
+}
+
+.bg-white {
+    background: #ffffff;
 }
 
 .header-btn-wrap {
@@ -152,7 +157,7 @@ h1 {
 
 .header {
     text-align: center;
-    margin-top: 29px;
+    margin-top: -40px;
 }
 
 .header > h1 {
@@ -427,7 +432,7 @@ h1 {
 /*iframe style */
 .report {
     width: 100%;
-    height: auto;
+    height: 500px;
     position: relative;
 }
 
@@ -437,7 +442,8 @@ h1 {
 
 .report > iframe {
     width: 100%;
-    height: auto;
+    height: calc(100vh);
+    margin-bottom: 30px;
 }
 
 .back-btn {
@@ -570,4 +576,90 @@ h1 {
 .ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable:hover {
     background-color: #fff;
     cursor: default;
+}
+
+.form-control {
+    -webkit-box-shadow: none !important;
+    background-color: #ECEDEE;
+    border: 1px solid #ECEDEE;
+    box-shadow: none !important;
+    color: #555555;
+    display: inline-block;
+    font-size: 13px;
+    height: auto;
+    line-height: normal;
+    padding: 9px 12px 8px;
+    vertical-align: middle;
+    width: 100%;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+.left-wrap {
+    height: calc(100vh);
+    background: #ffffff;
+}
+
+.parameter-header {
+    padding: 5px;
+}
+
+.parameter-header > small {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #33B1F8 !important;
+    font-size: 18px;
+    padding-left: 6px;
+    padding-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.report-filter-header {
+    height: 65px
+}
+
+.report-viewer-wrap {
+    height: 550px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.header-report-name {
+    background: #f99b1c;
+    height: 65px;
+}
+
+.header-report-name > small {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #fff !important;
+    padding: 12px;
+}
+
+.header-report-name > small > h1 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.header-2 {
+    text-align: center;
+    width: 100%;
+}
+
+.report-btn-wrap {
+    position: fixed;
+    bottom: 0;
+    /* background: #f99b1c; */
+    height: 50px;
+    /* width: 100%; */
+    padding-left: 93px;
+    padding-bottom: 20px;
+    text-align: center;
+    margin: 0 auto;
 }

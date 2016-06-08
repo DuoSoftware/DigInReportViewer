@@ -63,6 +63,7 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
 
     //refresh reports view
     $scope.refresh = function () {
+        $scope.searchReport = "";        
         getAllReport();
     }
 

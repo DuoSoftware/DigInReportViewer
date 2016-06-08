@@ -39,7 +39,7 @@
                             <md-card-title>
                                 <div layout-gt-xs="row">
                                     <input type="text" datepicker
-                                           class="form-control"
+                                           class="form-control datep"
                                            ng-model="reportFiledList.selectedDate[picker.fieldname]"
                                            placeholder="{{picker.label}}"/>
                                 </div>
@@ -77,7 +77,7 @@
                         <md-button ng-disabled="reportFldLoading" class="md-raised" ng-click="onCreateReport()">
                             Genarate report
                         </md-button>
-                        <md-button ng-disabled="reportFldLoading" class="md-raised md-primary">refresh
+                        <md-button ng-disabled="reportFldLoading" ng-click="onClickRefresh()" class="md-raised md-primary">refresh
                         </md-button>
                     </section>
                 </div>

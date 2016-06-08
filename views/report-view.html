@@ -23,7 +23,7 @@
                             <!-- Use floating label instead of placeholder -->
                             <label class="white-text">Search report here...</label>
                             <md-icon md-svg-src="img/icons/ic_person_24px.svg" class="name"></md-icon>
-                            <input class="white-input" ng-model="user.name" type="text">
+                            <input class="white-input" ng-model="searchReport" type="text">
                         </md-input-container>
                     </div>
                     <div flex-gt-sm="30" flex="30">
@@ -51,7 +51,7 @@
                         ></div>
                         <div class='md-padding' layout="row" layout-wrap flex
                              layout-align="center center">
-                            <md-card flex="20" class="report-wrap animated zoomIn " ng-repeat="report in reports">
+                            <md-card flex="20" class="report-wrap animated zoomIn " ng-repeat="report in reports | filter : searchReport">
                                 <md-card-title>
                                     <md-card-title-text>
                                         <span class="md-headline font-robot report-header">

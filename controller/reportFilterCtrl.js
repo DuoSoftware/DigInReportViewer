@@ -68,6 +68,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
         ]
     };
     $scope.reportFiledList = reportFiledList;
+    var localStorage = [];
 
     //#private function
     //controller private function
@@ -256,7 +257,15 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 //#refresh
 //refresh all data
     $scope.onClickRefresh = function () {
-        serverRequest.getReportUIFromServer(eventHandler);
+        privateFun.clearIframe();        
+        //serverRequest.getReportUIFromServer(eventHandler);
+                $("md-select").val("");
+                $('.datep').val("");
+                var selDrpDwnObj = $scope.reportFiledList.selectedDrpFiled;
+                $scope.reportFiledList.selectedDate = [];
+                for (var loop = 0; loop < selDrpDwnObj.length; loop++) {
+                    $scope.reportFiledList.selectedDrpFiled[loop].value = "";
+                }
     };
 
 //#onclick cancel filed load
@@ -355,9 +364,12 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                 privateFun.waitParameterRender();
                 dynamicallyReportSrv.getReportUI(reqParameter).success(function (data) {
                     privateFun.doneParameterRender();
+                    //store data in a local storage for refresh purpose
+                    localStorage = data;                    
                     var loop = 0;
                     for (var d in data) {
                         if (Object.prototype.hasOwnProperty.call(data, d)) {
+                            console.log(typeof(data));
                             var val = data[d];
 
                             //get filed data
@@ -610,17 +622,17 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                     var nextRequst = i;
                     nextRequst++;
                     var length = $scope.reportFiledList.UIDropDown.length
-                    if (executeQueryAry[i].filedName == filedName &&
+                    if (executeQueryAry[i].ParamName == filedName &&
                         nextRequst != executeQueryAry.length) {
                         if (i != executeQueryAry.length) {
                             if (executeQueryAry[i].query != "") {
 
                                 //#nextquery
                                 var nextQuery = executeQueryAry[nextRequst].query;
-                                var replaceTxt = privateFun.capitalise(filedName);
-                                replaceTxt = '${' + replaceTxt + '}';
+                                //var replaceTxt = privateFun.capitalise(filedName);
+                                replaceTxt = '${' + filedName + '}';
                                 var nextQuery = nextQuery.replace(replaceTxt, "'" + selectedVal + "'");
-                                nextQuery = nextQuery.replace('All', selectedVal);
+                                //nextQuery = nextQuery.replace('All', selectedVal);
 
                                 //loader
                                 var loaderIndex = 0;
@@ -634,6 +646,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 
                                 serverRequest.getExecuteQuery(nextQuery, length, function (res) {
                                     if (res.data == 500) {
+                                        var result  = res.data;
                                         privateFun.fireMsg('0', '<strong>Error 500 :' +
                                             ' </strong>Report filed load error...');
                                         reportFiledList.UIDropDown[loaderIndex].loader = false;

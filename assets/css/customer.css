@@ -623,7 +623,7 @@ h1 {
 }
 
 .report-viewer-wrap {
-    height: 550px;
+    height: auto;
     overflow-x: hidden;
     overflow-y: hidden;
 }
@@ -660,4 +660,12 @@ h1 {
     padding-bottom: 20px;
     text-align: center;
     margin: 0 auto;
+}
+
+md-toast.md-toast-success > .md-toast-content {
+    background-color: #4CAF50;
+}
+
+md-toast.md-toast-error > .md-toast-content {
+    background-color: #FF5252;
 }

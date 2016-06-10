@@ -3,7 +3,7 @@
  */
 
 mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, config,
-                                                 ngToast, $stateParams, $sce, $state) {
+                                                 ngToast, $stateParams, $sce, $state,$mdToast) {
 
 
     $scope.isFiled = {
@@ -75,21 +75,11 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     var privateFun = (function () {
         return {
             fireMsg: function (msgType, content) {
-                ngToast.dismiss();
-                var _className;
-                if (msgType == '0') {
-                    _className = 'danger';
-                } else if (msgType == '1') {
-                    _className = 'success';
-                }
-                ngToast.create({
-                    className: _className,
-                    content: content,
-                    horizontalPosition: 'center',
-                    verticalPosition: 'top',
-                    dismissOnClick: true,
-                    timeout: 3000,
-                });
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent(content)
+                    .position('top right')
+                    .hideDelay(3000));
             },
             capitalise: function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -257,15 +247,16 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 //#refresh
 //refresh all data
     $scope.onClickRefresh = function () {
-        privateFun.clearIframe();        
+        privateFun.clearIframe();
+        $scope.reportFiledList.selectedDate = [];        
         //serverRequest.getReportUIFromServer(eventHandler);
                 $("md-select").val("");
-                $('.datep').val("");
+               /* $('.datep').val("");
                 var selDrpDwnObj = $scope.reportFiledList.selectedDrpFiled;
                 $scope.reportFiledList.selectedDate = [];
                 for (var loop = 0; loop < selDrpDwnObj.length; loop++) {
                     $scope.reportFiledList.selectedDrpFiled[loop].value = "";
-                }
+                }*/
     };
 
 //#onclick cancel filed load
@@ -431,8 +422,8 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                         }
                                         getExecuteQuery(val.Query, length, function (res) {
                                             if (res.data == 500) {
-                                                privateFun.fireMsg('0', '<strong>Error 500 :' +
-                                                    ' </strong>Report filed load error...');
+                                                privateFun.fireMsg('0', 'Error 500 :' +
+                                                    ' Report filed load error...');
                                                 $scope.$apply(function () {
                                                     $scope.reportFiledList.UIDropDown[loaderIndex].loader = false;
                                                 });
@@ -508,8 +499,8 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                         }
                     }
                     if (dateSelectEmpty == 2 || dateSelectEmpty == 1) {
-                        privateFun.fireMsg('0', '<strong>Error :' +
-                            ' </strong>please select the report date parameter...');
+                        privateFun.fireMsg('0', 'Error :' +
+                            ' please select the report date parameter...');
                         privateFun.doneReportLoad();
                         return;
                     }
@@ -526,8 +517,8 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                         }
                     }
                     if (!validationState) {
-                        privateFun.fireMsg('0', '<strong>Error :' +
-                            ' </strong>please select the report  parameter...');
+                        privateFun.fireMsg('0', 'Error :' +
+                            ' please select the report  parameter...');
                         privateFun.doneReportLoad();
                         return;
                     }
@@ -647,8 +638,8 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                 serverRequest.getExecuteQuery(nextQuery, length, function (res) {
                                     if (res.data == 500) {
                                         var result  = res.data;
-                                        privateFun.fireMsg('0', '<strong>Error 500 :' +
-                                            ' </strong>Report filed load error...');
+                                        privateFun.fireMsg('0', 'Error 500 :' +
+                                            ' Report filed load error...');
                                         reportFiledList.UIDropDown[loaderIndex].loader = false;
                                         return;
                                     }
@@ -684,7 +675,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                         });
 
                                     } else {
-                                        privateFun.fireMsg('1', '<strong>Data not found..');
+                                        privateFun.fireMsg('1', 'Data not found..');
 
                                     }
 
@@ -711,7 +702,7 @@ directive('datepicker', function () {
                 });
             };
             var options = {
-                dateFormat: "dd-mm-yy",
+                dateFormat: "yy-mm-dd",
                 onSelect: function (dateText) {
                     updateModel(dateText);
                 }

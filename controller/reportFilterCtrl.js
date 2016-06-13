@@ -75,11 +75,20 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     var privateFun = (function () {
         return {
             fireMsg: function (msgType, content) {
+                if(msgType == '1')
+                {
+                    var theme = 'success-toast';
+                }
+                else
+                {
+                    var theme = 'error toast';
+                }
                 $mdToast.show(
                     $mdToast.simple()
                     .textContent(content)
                     .position('top right')
-                    .hideDelay(3000));
+                    .hideDelay(3000)
+                    .theme(theme));
             },
             capitalise: function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -120,7 +129,9 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                 $scope.reportFiledList.selectedDate = [];
             },
             doneReportLoad: function () {
+                var reportName = $scope.eventHandler.reportName;
                 $scope.eventHandler = {
+                    reportName: reportName,
                     isDataFound: false,
                     isReportLoad: false,
                     isFiled: {
@@ -249,14 +260,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     $scope.onClickRefresh = function () {
         privateFun.clearIframe();
         $scope.reportFiledList.selectedDate = [];        
-        //serverRequest.getReportUIFromServer(eventHandler);
                 $("md-select").val("");
-               /* $('.datep').val("");
-                var selDrpDwnObj = $scope.reportFiledList.selectedDrpFiled;
-                $scope.reportFiledList.selectedDate = [];
-                for (var loop = 0; loop < selDrpDwnObj.length; loop++) {
-                    $scope.reportFiledList.selectedDrpFiled[loop].value = "";
-                }*/
     };
 
 //#onclick cancel filed load
@@ -360,7 +364,6 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                     var loop = 0;
                     for (var d in data) {
                         if (Object.prototype.hasOwnProperty.call(data, d)) {
-                            console.log(typeof(data));
                             var val = data[d];
 
                             //get filed data
@@ -507,16 +510,16 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                 }
 
                 //drop down validation
-                var validationState = false;
+                var validationState = true;
                 var loop;
                 loop = $scope.reportFiledList.isDateFound ? 2 : 0;
                 if ($scope.reportFiledList.isDropDownFound) {
                     for (loop; loop < selDrpDwnObj.length; loop++) {
-                        if (selDrpDwnObj[loop].value != "") {
-                            validationState = true;
+                        if (selDrpDwnObj[loop].value == "" || selDrpDwnObj[loop].value == null ) {
+                            validationState = false;
                         }
                     }
-                    if (!validationState) {
+                    if (validationState == false) {
                         privateFun.fireMsg('0', 'Error :' +
                             ' please select the report  parameter...');
                         privateFun.doneReportLoad();
@@ -549,9 +552,10 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                             '"' + selDrpDwnObj[i]['value'] + '"}';
                     }
                 }//end
-
+                var reportName = $scope.eventHandler.reportName;
                 //HTTP get report
                 $scope.eventHandler = {
+                    reportName: reportName,
                     isDataFound: false,
                     isReportLoad: true,
                     isFiled: {

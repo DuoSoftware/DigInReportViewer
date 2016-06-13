@@ -24,7 +24,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
 //app common config details
 mainApp.constant('config', {
     appName: 'diginReportViwer',
-    appVersion: 1.1,
+    appVersion: 1.2,
     apiReportBase: 'http://192.168.2.191:8080/',
     apiPostgreSql: 'http://192.168.2.191:8080/',
     apiTomcatBase: 'http://192.168.2.191:9897/',

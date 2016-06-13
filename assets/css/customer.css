@@ -662,10 +662,10 @@ h1 {
     margin: 0 auto;
 }
 
-md-toast.md-toast-success > .md-toast-content {
+md-toast.md-success-toast-theme .md-toast-content {
     background-color: #4CAF50;
 }
 
-md-toast.md-toast-error > .md-toast-content {
+md-toast.md-error-toast-theme .md-toast-content {
     background-color: #FF5252;
 }

@@ -52,21 +52,25 @@
                         ></div>
                         <div class='md-padding' layout="row" layout-wrap flex
                              layout-align="center center">
-                            <md-card flex="20" class="report-wrap animated zoomIn " ng-repeat="report in reports | filter : searchReport">
-                                <md-card-title>
+                            <md-card flex="20" class="report-wrap" ng-repeat="report in reports | filter : searchRepor" ng-mouseover = "tooltip = true" ng-mouseleave = "tooltip = false">
+                                <!--<div  class = "title-tool-tip" ng-if = "tooltip">
+                                {{report}}
+                                </div>-->                                
+                                <md-card-title label = "report">
+                                    <div style = "padding-left:16px;">
                                     <md-card-title-text>
+                                    <md-tooltip md-direction = "bottom">{{report}}</md-tooltip>
                                         <span class="md-headline font-robot report-header">
                                             {{ report | limitTo: 15 }}{{report.length > 15 ? '...' : ''}}
                                         </span>
-                                    </md-card-title-text>
-
+                                    </md-card-title-text></div>
                                     <div class="image-report">
                                         <img src="assets/img/report.png"/>
                                     </div>
-
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="center center">
-                                    <md-button ng-click="clickGoToFilter(report)">view Report</md-button>
+                                    <md-button ng-click="clickGoToFilter(report)">view Report
+                                    </md-button>
                                 </md-card-actions>
                             </md-card>
                         </div>

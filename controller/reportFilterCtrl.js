@@ -3,14 +3,13 @@
  */
 
 mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, config,
-                                                 ngToast, $stateParams, $sce, $state,$mdToast) {
+                                                 ngToast, $stateParams, $sce, $state,$mdToast,$mdDialog) {
 
 
     $scope.isFiled = {
         loading: false,
         found: false
     };
-
     //back to home
     $scope.onClickBack = function () {
         $state.go('report');
@@ -148,10 +147,16 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             clearIframe: function () {
                 $scope.eventHandler.isDataFound = true;
                 $scope.eventHandler.isReportLoad = false;
-                $scope.reportURL = $sce.trustAsResourceUrl('');
+                /*$scope.reportURL = '';
                 var frame = $('#reportFram').get(0);
                 var frameDoc = frame.contentDocument || frame.contentWindow.document;
-                frameDoc.getElementsByTagName('body')[0].innerHTML = "";
+                frameDoc.getElementsByTagName('body')[0].innerHTML = "";*/
+                var iframe = document.getElementById("reportFram");
+                    var html = "";
+
+                    iframe.contentWindow.document.open();
+                    iframe.contentWindow.document.write(html);
+                    iframe.contentWindow.document.close();
             },
             getNumberOfMonth: function (month) {
                 switch (month.toLowerCase()) {
@@ -526,6 +531,23 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                         return;
                     }
                 }
+                var getTimeOut = function(){
+                    if ( $scope.reportFldLoading == true ){
+                    var confirm = $mdDialog.confirm()
+                        .textContent('It is taking too long to load the report. Do you want to cancel and try again?')
+                        .ok('Yes')
+                        .cancel('No')
+                        .clickOutsideToClose(true);
+                        $mdDialog.show(confirm).then(function() {
+                            $scope.onClickRefresh()
+                        }, function() {
+                        });
+                        }
+                    }
+
+                setTimeout(function() {
+                    getTimeOut();
+                }, 1000);
 
                 getReportName();
                 getSession();

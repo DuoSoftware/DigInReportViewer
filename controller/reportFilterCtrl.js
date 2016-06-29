@@ -547,7 +547,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 
                 setTimeout(function() {
                     getTimeOut();
-                }, 1000);
+                }, 300000);
 
                 getReportName();
                 getSession();

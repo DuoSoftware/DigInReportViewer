@@ -34,6 +34,21 @@ mainApp.factory('dynamicallyReportSrv', function ($http) {
         },
         startReportServer: function (parameter) {
             return $http.get(parameter.tomCatBase + 'DigIn-Report/ReportService/Reports/command/start');
+        },
+        get_tenant_status: function (parameter) {
+            return $http.get( parameter.apiBase+ 'get_user_settings?SecurityToken=' + parameter._st );
+        },
+        initialize_tenant: function (parameter) {
+            return $http({
+                    method: 'POST',
+                    url: parameter.apiBase +'set_init_user_settings',
+                    data: {
+                         'db' : 'BigQuery' 
+                    },
+                    headers: {  
+                        'SecurityToken': parameter._st
+                    }
+                });            
         }
     }
 });

@@ -10,11 +10,28 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
     $scope.isReportLoading = false;
     var serverReq = {
         reqParameter: {
-            apiBase: config.apiReportBase,
+            apiBase: config.Digin_Engine_API,
             tomCatBase: config.apiTomcatBase,
-            token: '76e826677144c7ad95b0d36680fc8303',
+            token: '',
             reportName: '',
             queryFiled: ''
+        },
+        getToken: function() {
+            var _st = "";
+            var nameEQ = "securityToken=";
+            var ca = document.cookie.split(';');
+            //get the tenant security token
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0){
+                    _st = c.substring(nameEQ.length, c.length);
+                }
+                else{
+                    _st = "abab877b2f4c8492c4f0cf90e64136c5";
+                }
+            }
+            return _st;
         },
         startReportServer: function () {
             dynamicallyReportSrv.startReportServer(this.reqParameter).success(function (res) {
@@ -26,10 +43,24 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
             });
         },
         getAllReports: function (callBack) {
+            this.reqParameter.token = serverReq.getToken(); 
+            var rep = [];
             $scope.isReportLoading = true;
-            dynamicallyReportSrv.getAllReports(this.reqParameter).success(function (res) {
-                if (res.Is_Success) {
-                    callBack(res.Result);
+            dynamicallyReportSrv.getAllReports(this.reqParameter).success(function (data) {
+                if (data.Is_Success) {
+                    for (var i = 0; i < data.Result.length; i++) {
+                        if ( data.Result[i].compType == "Report"){
+                            rep.push(data.Result[i].compName);
+                            }
+                        }
+                    if ( rep.length > 0 ){
+                        callBack(rep);
+                    } else {
+                        callBack(null);
+                    }
+                }
+                else{
+                    callBack(null);
                 }
             }).error(function (err) {
                 callBack(null);

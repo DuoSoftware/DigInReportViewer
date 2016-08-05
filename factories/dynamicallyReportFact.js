@@ -17,13 +17,8 @@ mainApp.factory('dynamicallyReportSrv', function ($http) {
             });
         },
         getAllReports: function (parameter) {
-            return $http.get(parameter.apiBase + 'getreportnames?SecurityToken=' + parameter.token +
-                '&Domain=duosoftware.com', {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            });
+            return $http.get(parameter.apiBase + 'get_all_components?SecurityToken=' + parameter.token +
+                '&Domain=' + parameter.Digin_Domain);
         },
         getCurrentQry: function (parameter) {
             return $http.get(parameter.apiBase + 'getQueries?Reportname=' + parameter.reportName +

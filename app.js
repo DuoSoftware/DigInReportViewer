@@ -25,10 +25,9 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
 mainApp.constant('config', {
     appName: 'diginReportViwer',
     appVersion: 1.3,
-    apiReportBase: 'http://192.168.2.191:8080/',
-    apiPostgreSql: 'http://192.168.2.191:8080/',
-    apiTomcatBase: 'http://192.168.2.191:9897/',
+    apiTomcatBase: 'http://digin.cloudcharge.com:9897/',
     Digin_Engine_API: 'http://digin.cloudcharge.com:1929/',
+    Digin_Domain: 'digin.cloudcharge.com',
     storeIndex: 'com.duosoftware.com'
 });
 
@@ -47,9 +46,6 @@ mainApp.run(function(config,dynamicallyReportSrv) {
         if (c.indexOf(nameEQ) == 0){
             reqParameter._st = c.substring(nameEQ.length, c.length);
         }
-        // else {
-        //     reqParameter._st = "0245f75d3b4a81adde95e76b1e16125a"; //"78d2a5c15ea3254f273e437f49f2f3c9 111fe78c80a113b62910f95dae524c31";
-        // }
     }
     //Find if tenant has logged in
     dynamicallyReportSrv.get_tenant_status(reqParameter).success(function (res) {

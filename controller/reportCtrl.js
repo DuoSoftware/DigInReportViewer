@@ -27,9 +27,6 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
                 if (c.indexOf(nameEQ) == 0){
                     _st = c.substring(nameEQ.length, c.length);
                 }
-                else{
-                    _st = "abab877b2f4c8492c4f0cf90e64136c5";
-                }
             }
             return _st;
         },

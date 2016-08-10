@@ -69,7 +69,6 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
     };//end
 
     $scope.reports = [];
-    serverReq.startReportServer();
     function getAllReport() {
         $scope.reports = [];
         serverReq.getAllReports(function (resp) {
@@ -81,7 +80,13 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
         });
     }
 
-    getAllReport();
+    // Call these functions only when the user is initialized
+    $rootScope.$watch('userStatus' , function(){
+        if ($rootScope.userStatus){
+            serverReq.startReportServer();
+            getAllReport();
+        }
+    },true);
 
     //click event
     //go to filter

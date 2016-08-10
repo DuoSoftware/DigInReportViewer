@@ -31,7 +31,7 @@ mainApp.constant('config', {
     storeIndex: 'com.duosoftware.com'
 });
 
-mainApp.run(function(config,dynamicallyReportSrv) {
+mainApp.run(function(config,dynamicallyReportSrv,$rootScope) {
     var reqParameter = {
         apiBase: config.Digin_Engine_API,
         _st: ""
@@ -47,6 +47,7 @@ mainApp.run(function(config,dynamicallyReportSrv) {
             reqParameter._st = c.substring(nameEQ.length, c.length);
         }
     }
+    $rootScope.userStatus = false;
     //Find if tenant has logged in
     dynamicallyReportSrv.get_tenant_status(reqParameter).success(function (res) {
         if (res.Is_Success){
@@ -55,6 +56,7 @@ mainApp.run(function(config,dynamicallyReportSrv) {
                 dynamicallyReportSrv.initialize_tenant(reqParameter).success(function(res) {
                     if (res.Is_Success){
                         console.log("initialized");
+                        $rootScope.userStatus = true;
                     }
                     else{
                         console.log("Not initialized");
@@ -62,6 +64,9 @@ mainApp.run(function(config,dynamicallyReportSrv) {
                 }).error(function (res){
                     console.log("Not initialized");
                 });
+            }
+            else{
+                $rootScope.userStatus = true;
             }
         }   
     }).error(function (res) {

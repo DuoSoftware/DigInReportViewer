@@ -46,7 +46,7 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
             dynamicallyReportSrv.getAllReports(this.reqParameter).success(function (data) {
                 if (data.Is_Success) {
                     for (var i = 0; i < data.Result.length; i++) {
-                        if ( data.Result[i].compType == "Report"){
+                        if ( data.Result[i].compType == "report"){
                             rep.push(data.Result[i].compName);
                             }
                         }

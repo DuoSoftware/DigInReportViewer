@@ -278,10 +278,10 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 //Main function
     var serverRequest = (function () {
         var reqParameter = {
-            apiBase: config.apiReportBase,
+            apiBase: config.Digin_Engine_API,
             reportServer: config.apiPostgreSql,
             tomCatBase: config.apiTomcatBase,
-            token: '76e826677144c7ad95b0d36680fc8303',
+            token: '',
             reportName: '',
             queryFiled: '',
             rptParameter: ''
@@ -300,6 +300,20 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 
             }
         };
+        var getToken = function() {
+            var _st = "";
+            var nameEQ = "securityToken=";
+            var ca = document.cookie.split(';');
+            //get the tenant security token
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0){
+                    _st = c.substring(nameEQ.length, c.length);
+                }
+            }
+            return _st;
+        };       
         //get queries
         var getQueries = function (reqParameter, response) {
             var xhttp = new XMLHttpRequest();
@@ -360,6 +374,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             getReportUIFromServer: function (eventHandler) {
                 getReportName();
                 getSession();
+                reqParameter.token = getToken();
                 privateFun.clearAllUI();
                 privateFun.waitParameterRender();
                 dynamicallyReportSrv.getReportUI(reqParameter).success(function (data) {

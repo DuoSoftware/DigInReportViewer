@@ -685,6 +685,10 @@ select.ui-datepicker-year {
     position: fixed;
 }
 
+.margin-left {
+    margin-left: 500px;
+}
+
 md-toast.md-success-toast-theme .md-toast-content {
     background-color: #4CAF50;
 }

@@ -24,7 +24,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
 //app common config details
 mainApp.constant('config', {
     appName: 'diginReportViwer',
-    appVersion: 1.3,
+    appVersion: 1.4,
     apiTomcatBase: 'http://digin.cloudcharge.com:9897/',
     Digin_Engine_API: 'http://digin.cloudcharge.com:1929/',
     Digin_Domain: 'digin.cloudcharge.com',

@@ -1,35 +1,30 @@
 <div ng-controller="reportFilterCtrl">
     <toast></toast>
     <div class="header-wrap animated fadeIn" flex>
-        <div class="report-main-wrap report-filter-header">
+        <div class="report-main-wrap report-filter-header position-fixed">
             <div layout="row">
                 <div layout="row" flex="75">
-
                 </div>
                 <div layout="row" flex="25" class="header-report-name">
                     <small>ReportName
                         <h1>{{eventHandler.reportName}}</h1>
                     </small>
-
                 </div>
-
             </div>
         </div>
-
-
     </div>
 
     <!-- #filed view -->
     <div class="report-view-wrap ">
 
         <div layout="row">
-            <div flex="25" class="left-wrap">
+            <div flex="25" class="left-wrap position-fixed">
                 <div class="header">
                     <md-button ng-click="onClickBack();" class="md-fab back-btn">
                         <i class="fa fa-arrow-left"></i>
                     </md-button>
                 </div>
-                <div class="parameter-header">
+                <div class="parameter-header" ng-show="reportLayout">
                     <small>Parameters</small>
                 </div>
 

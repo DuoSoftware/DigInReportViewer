@@ -67,6 +67,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
         ]
     };
     $scope.reportFiledList = reportFiledList;
+    $scope.reportLayout = false;
     var localStorage = [];
 
     //#private function
@@ -488,8 +489,14 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                             });
                         }
                     }
+                    if ($scope.reportFiledList.UIDate.length > 0 || $scope.reportFiledList.UIDropDown.length > 0 ){
+                        $scope.reportLayout = true;
+                    }else{
+                        $scope.reportLayout = false;
+                    }
                 }).error(function (respose) {
                     privateFun.gotParameterRenderError();
+                    $scope.reportLayout = false;
                 });
             },
             reportCreate: function () {
@@ -744,6 +751,8 @@ directive('datepicker', function () {
             };
             var options = {
                 dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                changeYear: true,
                 onSelect: function (dateText) {
                     updateModel(dateText);
                 }

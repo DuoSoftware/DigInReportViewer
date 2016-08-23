@@ -4,7 +4,7 @@
     <a id="bottom"></a>
         <div class="report-main-wrap">
             <div layout="row" layout-align="center center">
-                <div layout="row" flex flex-gt-xs="60">
+                <div layout="row" flex flex-gt-xs="60" layout-align="center center">
                     <div class="header">
                         <h1 class="animated zoomIn">Select your report</h1>
                         <small class="animated fadeIn">Visualize Any Data Source
@@ -18,7 +18,7 @@
 
         <div class="header-search-wrap">
             <div layout="row" layout-align="center center">
-                <div layout="row" flex flex-gt-xs="60">
+                <div layout="row" flex flex-gt-xs="60" layout-align="center center" ng-show="isReportLoading==false ">
                     <div flex-gt-sm="70" flex="70">
                         <md-input-container class="md-icon-float md-block">
                             <!-- Use floating label instead of placeholder -->
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div class="report-view-wrap report-viewer-wrap" style="margin-top: 370px;">
+    <div class="report-view-wrap report-viewer-wrap">
         <div layout="row" layout-align="center center">
             <div layout="row" flex flex-gt-xs="80">
                 <div class='md-padding position-relative' layout="row" flex>

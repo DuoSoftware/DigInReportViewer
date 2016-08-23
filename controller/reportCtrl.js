@@ -7,7 +7,6 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
                                            $state, config, dynamicallyReportSrv, $window, $location, $anchorScroll) {
 
     //server request handler
-    $scope.isReportLoading = true;
     $scope.reports = null;
     var serverReq = {
         reqParameter: {

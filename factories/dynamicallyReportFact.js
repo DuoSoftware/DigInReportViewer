@@ -26,7 +26,7 @@ mainApp.factory('dynamicallyReportSrv', function ($http) {
         },
         getRenderReport: function (parameter) {
             // return $http.get(parameter.tomCatBase + 'DigIn-Report/ReportService/Reports/getreport/' + parameter.reportName + '/[' + parameter.rptParameter + ']');
-            return $http.get(parameter.tomCatBase + 'DigIn-Report/ReportService/Reports/getreport/' + parameter.token +'/'+ parameter.reportName +'/'+ parameter.rptParameter);
+            return $http.get(parameter.tomCatBase + 'DigIn-Report/ReportService/Reports/getreport/' + parameter.token +'/'+ parameter.reportName +'/['+ parameter.rptParameter+']');
             
         },
         startReportServer: function (parameter) {

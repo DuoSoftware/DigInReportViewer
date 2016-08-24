@@ -72,7 +72,7 @@
                         <md-button ng-disabled="reportFldLoading" class="md-raised" ng-click="onCreateReport()">
                             Genarate report
                         </md-button>
-                        <md-button ng-disabled="reportFldLoading" ng-click="onClickRefresh()" class="md-raised md-primary">clear
+                        <md-button ng-disabled="reportFldLoading || ! reportLayout" ng-click="onClickRefresh()" class="md-raised md-primary">clear
                         </md-button>
                     </section>
                 </div>

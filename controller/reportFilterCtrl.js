@@ -534,6 +534,11 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                         privateFun.doneReportLoad();
                         return;
                     }
+                    if ( datePickerObj.From > datePickerObj.To){
+                        privateFun.fireMsg('0','From date is greater than To date');
+                        privateFun.doneReportLoad();
+                        return;
+                    }                    
                 }
 
                 //drop down validation

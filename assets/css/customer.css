@@ -682,7 +682,7 @@ select.ui-datepicker-year {
 }
 
 .position-fixed {
-    position: fixed;
+    /*position: fixed;*/
 }
 
 .margin-left {

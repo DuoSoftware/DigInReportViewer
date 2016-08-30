@@ -1,4 +1,5 @@
 <div ng-controller="reportFilterCtrl">
+    <a id="top"></a>
     <toast></toast>
     <div class="header-wrap animated fadeIn" flex>
         <div class="report-main-wrap report-filter-header position-fixed">
@@ -83,11 +84,13 @@
                 <div class="report" id="report">
                     <div class="report-loading" layout-align="center center"
                          ng-if="reportFldLoading">
-                        <div class="loader more margin-left"></div>
+                        <div class="loader more"></div>
                     </div>
                     <iframe frameborder='0' ng-src="{{reportURL}}"
                             frameborder="0"
                             id="reportFram"
+                            marginwidth="0"
+                            marginheight="0"
                             allowfullscreen>
                     </iframe>
                 </div>

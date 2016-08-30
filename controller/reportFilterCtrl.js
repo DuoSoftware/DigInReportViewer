@@ -13,6 +13,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     //back to home
     $scope.onClickBack = function () {
         $state.go('report');
+        document.body.style.overflow = 'scroll';
     };
 
     //#event handler

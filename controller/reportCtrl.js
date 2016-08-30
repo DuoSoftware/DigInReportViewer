@@ -81,7 +81,7 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
     }
 
     // Call these functions only when the user is initialized
-    $rootScope.$watch('userStatus' , function(){
+    $rootScope.$watch('userStatus' , function(newValue,OldValue){
         if ($rootScope.userStatus){
             serverReq.startReportServer();
             getAllReport();
@@ -92,6 +92,9 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
     //go to filter
     $scope.clickGoToFilter = function (reportName) {
         $state.go('reportFilter', {'reportNme': reportName});
+        $location.hash('top');
+        $anchorScroll();        
+        document.body.style.overflow = 'hidden';
     };
 
     //refresh reports view
@@ -107,8 +110,6 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
          $location.hash('bottom');
          $anchorScroll();
     };
-
-
 });
 
 

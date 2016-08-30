@@ -1,7 +1,7 @@
 html, body {
     background: #cee2f2;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 
 .background.with-promo {
@@ -683,10 +683,6 @@ select.ui-datepicker-year {
 
 .position-fixed {
     /*position: fixed;*/
-}
-
-.margin-left {
-    margin-left: 500px;
 }
 
 md-toast.md-success-toast-theme .md-toast-content {

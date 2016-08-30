@@ -298,7 +298,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             } else {
                 reqParameter.reportName = reportName;
                 $scope.eventHandler.reportName = reportName;
-
+                $scope.reportName = reportName.replace(/_/g, ' ');
             }
         };
         var getToken = function() {

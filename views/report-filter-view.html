@@ -8,7 +8,7 @@
                 </div>
                 <div layout="row" flex="25" class="header-report-name">
                     <small>ReportName
-                        <h1>{{eventHandler.reportName}}</h1>
+                        <h1>{{reportName}}</h1>
                     </small>
                 </div>
             </div>
@@ -70,10 +70,10 @@
 
                 <div class="report-btn-wrap">
                     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                        <md-button ng-disabled="reportFldLoading" class="md-raised" ng-click="onCreateReport()">
-                            Genarate report
+                        <md-button ng-disabled="reportFldLoading" class="md-raised btn-case" ng-click="onCreateReport()">
+                            Genarate Report
                         </md-button>
-                        <md-button ng-disabled="reportFldLoading || ! reportLayout" ng-click="onClickRefresh()" class="md-raised md-primary">clear
+                        <md-button ng-disabled="reportFldLoading || ! reportLayout" ng-click="onClickRefresh()" class="md-raised md-primary btn-case ">Clear
                         </md-button>
                     </section>
                 </div>

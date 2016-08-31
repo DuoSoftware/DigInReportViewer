@@ -633,7 +633,7 @@ select.ui-datepicker-year {
     font-size: 18px;
     padding-left: 6px;
     padding-bottom: 15px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 
 .report-filter-header {
@@ -681,8 +681,8 @@ select.ui-datepicker-year {
     margin: 0 auto;
 }
 
-.position-fixed {
-    /*position: fixed;*/
+.btn-case {
+    text-transform: none;
 }
 
 md-toast.md-success-toast-theme .md-toast-content {

@@ -281,7 +281,6 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     var serverRequest = (function () {
         var reqParameter = {
             apiBase: config.Digin_Engine_API,
-            reportServer: config.apiPostgreSql,
             tomCatBase: config.apiTomcatBase,
             token: '',
             reportName: '',
@@ -315,7 +314,17 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                 }
             }
             return _st;
-        };       
+        };
+        var getTenantName = function() {
+            var name = "authData";
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            var test = parts.pop().split(";").shift();
+            console.log(test);
+            var temp = JSON.parse(decodeURIComponent(test)).Domain;
+            console.log(temp);
+            // if (parts.length == 2) return parts.pop().split(";").shift();
+        };    
         //get queries
         var getQueries = function (reqParameter, response) {
             var xhttp = new XMLHttpRequest();
@@ -334,6 +343,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 
         //Execute query
         var getExecuteQuery = function (queryString, length, data) {
+            var db_name = serverRequest.getTenantName();
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function (e) {
                 if (xhr.readyState === 4) {
@@ -349,12 +359,11 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                 console.error("request timedout: ", xhr);
                 data({'code': 500, 'data': 'request timedout'});
             };
-            xhr.open("GET", config.apiPostgreSql + "executeQuery?query=" + encodeURIComponent(queryString) + "&SecurityToken=" + reqParameter.token + "" +
-                "&Domain=duosoftware.com&db=PostgreSQL", /*async*/ true);
+            xhr.open("GET", config.Digin_Engine_API + "executeQuery?query=" + encodeURIComponent(queryString) + "&SecurityToken=" + reqParameter.token + "" +
+                "&Domain=duosoftware.com&db=mysql&db_name="+db_name, /*async*/ true);
             xhr.send();
         };
-
-
+        
         var bindingToData = function (res, filedName, list, length) {
             if (res.code == 200) {
                 switch (list) {
@@ -455,6 +464,13 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                                                 return;
                                             }
                                             var jsonObj = JSON.parse(res.data);
+                                            if (jsonObj.Is_Success == false){
+                                                privateFun.fireMsg('0', 'Report filed load error...');
+                                                $scope.$apply(function () {
+                                                    $scope.reportFiledList.UIDropDown[loaderIndex].loader = false;
+                                                });                                                
+                                                return;
+                                            }
                                             var filed = [];
                                             privateFun.doneLoadedFiled();
                                             for (var c in jsonObj.Result) {

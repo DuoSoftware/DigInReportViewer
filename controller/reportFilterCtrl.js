@@ -316,6 +316,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             return _st;
         };
         var getTenantName = function() {
+            debugger;
             var name = "authData";
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
@@ -323,7 +324,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             console.log(test);
             var temp = JSON.parse(decodeURIComponent(test)).Domain;
             console.log(temp);
-            // if (parts.length == 2) return parts.pop().split(";").shift();
+            if (parts.length == 2) return parts.pop().split(";").shift();
         };    
         //get queries
         var getQueries = function (reqParameter, response) {

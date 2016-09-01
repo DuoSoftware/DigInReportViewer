@@ -320,11 +320,11 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             var name = "authData";
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
-            var test = parts.pop().split(";").shift();
-            console.log(test);
-            var temp = JSON.parse(decodeURIComponent(test)).Domain;
-            console.log(temp);
-            if (parts.length == 2) return parts.pop().split(";").shift();
+            var partsStr = parts.pop().split(";").shift();
+            console.log(partsStr);
+            var tenantName = JSON.parse(decodeURIComponent(partsStr)).Domain;
+            console.log(tenantName);
+            return tenantName;
         };    
         //get queries
         var getQueries = function (reqParameter, response) {
@@ -344,7 +344,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
 
         //Execute query
         var getExecuteQuery = function (queryString, length, data) {
-            var db_name = serverRequest.getTenantName();
+            var db_name = getTenantName();
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function (e) {
                 if (xhr.readyState === 4) {
@@ -552,11 +552,18 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                         privateFun.doneReportLoad();
                         return;
                     }
+                    for(var c in datePickerObj){
+                        if (! moment(datePickerObj[c], 'YYYY-MM-DD', true).isValid()){
+                            privateFun.fireMsg('0','Invalid Date format. The correct date format is YYYY-MM-DD');
+                            privateFun.doneReportLoad();
+                            return;
+                        }
+                    }                    
                     if ( datePickerObj.From > datePickerObj.To){
                         privateFun.fireMsg('0','From date is greater than To date');
                         privateFun.doneReportLoad();
                         return;
-                    }                    
+                    }
                 }
 
                 //drop down validation

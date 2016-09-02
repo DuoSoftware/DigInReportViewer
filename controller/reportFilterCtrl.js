@@ -400,7 +400,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                             //get filed data
                             var dynObject = {
                                 query: val.Query,
-                                label: val.Label,
+                                label: val.Fieldname,
                                 fieldname: val.Fieldname,
                                 isHierarchy: val.isHierarchy,
                                 ParamName: val.ParamName,

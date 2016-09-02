@@ -47,7 +47,7 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
                 if (data.Is_Success) {
                     for (var i = 0; i < data.Result.length; i++) {
                         if ( data.Result[i].compType == "report"){
-                            rep.push(data.Result[i].compName.replace(/_/g, ' '));
+                            rep.push(data.Result[i].compName);
                             }
                         }
                     if ( rep.length > 0 ){
@@ -91,8 +91,7 @@ mainApp.controller('reportCtrl', function ($rootScope, $scope,
     //click event
     //go to filter
     $scope.clickGoToFilter = function (reportName) {
-        var repName = reportName.replace(/\ /g,'_');
-        $state.go('reportFilter', {'reportNme': repName});
+        $state.go('reportFilter', {'reportNme': reportName});
         $location.hash('top');
         $anchorScroll();        
         document.body.style.overflow = 'hidden';

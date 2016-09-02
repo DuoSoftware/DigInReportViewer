@@ -13,7 +13,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
     //back to home
     $scope.onClickBack = function () {
         $state.go('report');
-        document.body.style.overflow = 'scroll';
+        document.body.style.overflow = 'auto';
     };
 
     //#event handler
@@ -298,7 +298,6 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             } else {
                 reqParameter.reportName = reportName;
                 $scope.eventHandler.reportName = reportName;
-                $scope.reportName = reportName.replace(/_/g, ' ');
             }
         };
         var getToken = function() {
@@ -401,7 +400,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                             //get filed data
                             var dynObject = {
                                 query: val.Query,
-                                label: val.Fieldname,
+                                label: val.Label,
                                 fieldname: val.Fieldname,
                                 isHierarchy: val.isHierarchy,
                                 ParamName: val.ParamName,

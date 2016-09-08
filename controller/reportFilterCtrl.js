@@ -149,16 +149,9 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
             clearIframe: function () {
                 $scope.eventHandler.isDataFound = true;
                 $scope.eventHandler.isReportLoad = false;
-                /*$scope.reportURL = '';
+                $scope.reportURL = '';
                 var frame = $('#reportFram').get(0);
-                var frameDoc = frame.contentDocument || frame.contentWindow.document;
-                frameDoc.getElementsByTagName('body')[0].innerHTML = "";*/
-                var iframe = document.getElementById("reportFram");
-                    var html = "";
-
-                    iframe.contentWindow.document.open();
-                    iframe.contentWindow.document.write(html);
-                    iframe.contentWindow.document.close();
+                iframe_element.src = "";
             },
             getNumberOfMonth: function (month) {
                 switch (month.toLowerCase()) {

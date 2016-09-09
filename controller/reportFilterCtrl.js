@@ -151,7 +151,7 @@ mainApp.controller('reportFilterCtrl', function ($scope, dynamicallyReportSrv, c
                 $scope.eventHandler.isReportLoad = false;
                 $scope.reportURL = '';
                 var frame = $('#reportFram').get(0);
-                iframe_element.src = "";
+                frame.src = "";
             },
             getNumberOfMonth: function (month) {
                 switch (month.toLowerCase()) {
